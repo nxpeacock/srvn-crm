@@ -1,0 +1,210 @@
+<template name="welcome">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Tiếp đón học sinh</h3>
+            <a href="#" class="btn btn-primary">Thêm</a>
+        </div>
+    </div>
+
+</template>
+
+<template name="dlg_addNewStudent">
+    <div class="row">
+        <div class="col-sx-12 col-sm-12">
+            <form action="" class="smart-form" novalidate="novalidate">
+                <fieldset>
+                    <div class="row">
+                        <section class="col col-8">
+                            <label class="input" for="fullName">
+                                <i class="icon-prepend fa fa-user"></i>
+                                <input type="text" placeholder="Họ và tên" id="fullName"/>
+                            </label>
+                        </section>
+                        <section class="col col-4">
+                            <label class="input" for="birthDay">
+                                <i class="icon-append fa fa-calendar"></i>
+                                <input type="text" id="birthDay" placeholder="Ngày sinh"/>
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-10">
+                            <label for="schoolName" class="input">
+                                <i class="icon-prepend fa fa-building"></i>
+                                <input type="text" id="schoolName" placeholder="Trường"/>
+                            </label>
+                        </section>
+                        <section class="col col-2">
+                            <label for="classOf" class="input">
+                                <i class="icon-prepend fa fa-joomla"></i>
+                                <input type="text" id="classOf" placeholder="Lớp"/>
+                            </label>
+                        </section>
+                    </div>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="input" for="email">
+                                <i class="icon-prepend fa fa-envelope"></i>
+                                <input type="text" id="email" placeholder="Địa chỉ Email"/>
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            <label class="input" for="homePhone">
+                                <i class="icon-prepend fa fa-phone"></i>
+                                <input type="text" id="homePhone" placeholder="Điện thoại cố định"/>
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            <label class="input" for="mobilePhone">
+                                <i class="icon-prepend fa fa-mobile-phone"></i>
+                                <input type="text" id="mobilePhone" placeholder="Điện thoại di động"/>
+                            </label>
+                        </section>
+                    </div>
+                    <section>
+                        <label class="input" for="address">
+                            <i class="icon-prepend fa fa-map-marker"></i>
+                            <input type="text" id="address" placeholder="Địa chỉ"/>
+                        </label>
+                    </section>
+                </fieldset>
+                <fieldset>
+                    <div class="row">
+                        <section class="col col-6">
+                            <label class="toggle" for="isIELTSatEDU">
+                                <input type="checkbox" id="isIELTSatEDU" checked/>
+                                <i data-swchoff-text="Không" data-swchon-text="Có" style="width: 59px;"></i>
+                                Có học IELTS tại Sunrise Edu không?
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            <label class="input" for="ielts">
+                                <i class="icon-prepend fa fa-sort-amount-asc"></i>
+                                <input type="number" id="ielts" placeholder="Điểm IELTS"/>
+                            </label>
+                        </section>
+                        <section class="col col-3">
+                            <label class="input" for="toefl">
+                                <i class="icon-prepend fa fa-sort-amount-desc"></i>
+                                <input type="number" id="toefl" placeholder="Điểm TOEFL"/>
+                            </label>
+                        </section>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <section class="col col-4" style="padding-left: 0px;">
+                        <label class="label" style="font-size: 15px !important">Nguyện vọng du học tại </label>
+                        <label class="select" for="selectCountries">
+                            <select name="selectCountries" id="selectCountries">
+                                <option value="0">Anh</option>
+                                <option value="0">Mỹ</option>
+                                <option value="0">Úc</option>
+                                <option value="0">Canada</option>
+                                <option value="0">Hà Lan</option>
+                                <option value="0">New Zealand</option>
+                                <option value="0">Thụy Sỹ</option>
+                                <option value="0">Ý</option>
+                                <option value="0">Phần Lan</option>
+                                <option value="0">Singapore</option>
+                                <option value="0">Thái Lan</option>
+                                <option value="0">Trung Quốc</option>
+                                <option value="0">Du học hè</option>
+                            </select>
+                            <i></i>
+                        </label>
+                    </section>
+                    <section class="col col-8">
+                        <label class="label" style="font-size: 15px !important">Ngành học </label>
+                        <label class="select" for="selectStudies">
+                            <select name="selectStudy" id="selectStudies">
+                                {{#each majors}}
+                                <option value="{{_id}}">{{name}}</option>
+                                {{/each}}
+                            </select>
+                            <i></i>
+                        </label>
+                    </section>
+                </fieldset>
+                <fieldset>
+                    <section>
+                        <label class="label">Bạn biết đến </label>
+                        <div class="inline-group">
+                            <label class="checkbox">
+                                <input type="checkbox" name="knowSunriseVietnam"/>
+                                <i></i>
+                                Sunrise Vietnam
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="knowSunriseVietnam"/>
+                                <i></i>
+                                Buổi hội thảo
+                            </label>
+                            <label class="checkbox">
+                                <input type="checkbox" name="knowSunriseVietnam"/>
+                                <i></i>
+                                Triển lãm
+                            </label>
+                        </div>
+                    </section>
+                    <section>
+                        <label class="label">qua hình thức nào </label>
+                        <div class="row">
+                            <div class="col col-4">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Báo HHT
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Báo LĐ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Báo TBKT
+                                </label>
+                            </div>
+                            <div class="col col-4">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Báo tuổi trẻ
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Kenh14.vn
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Vnexpress.net
+                                </label>
+                            </div>
+                            <div class="col col-4">
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Ngoisao.net
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Dantri.com
+                                </label>
+                                <label class="checkbox">
+                                    <input type="checkbox" name="knowSunriseVietnam"/>
+                                    <i></i>
+                                    Treo băng rôn
+                                </label>
+                            </div>
+                        </div>
+
+                    </section>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</template>

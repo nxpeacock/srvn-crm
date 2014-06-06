@@ -1,0 +1,14 @@
+var welcomeController = RouteController.extend({
+    template : 'welcome',
+    onBeforeAction : filters.authenticate,
+    waitOn : function(){
+        return [Meteor.subscribe('majors_level1')]
+    }
+});
+
+Router.map(function(){
+    this.route('welcome',{
+        path : '/tiepdon',
+        controller : welcomeController
+    })
+})

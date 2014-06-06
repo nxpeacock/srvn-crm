@@ -1,0 +1,34 @@
+/**
+ * Created by nxcong on 26/05/2014.
+ */
+Router.map(function(){
+    this.route('manager-users',{
+        path : '/quanlyhethong/nguoidung',
+        template : 'manager-users',
+        waitOn : function(){
+            return [Meteor.subscribe('allUsers'),Meteor.subscribe('branches')];
+        },
+        data: function(){
+            return {
+                users : function(){
+                    var allUsers = _.clone(Meteor.users.find().fetch());
+                    _.map(allUsers,function(user){
+                        var branch = Branches.findOne(user.profile[0].branchId);
+                        return _.assign(user.profile[0],{'branchName' : branch.name});
+                    })
+                    return allUsers;
+                },
+                branches : Branches.find().fetch()
+            }
+        },
+        onBeforeAction : [filters.authenticate]
+    }),
+    this.route('manager-categories',{
+        path : '/quanlyhethong/danhmuc',
+        template : 'manager-categories',
+        onBeforeAction : filters.authenticate,
+        waitOn : function(){
+            return [Meteor.subscribe('majors_level1'),Meteor.subscribe('majors',parent)]
+        }
+    })
+})

@@ -1,0 +1,17 @@
+{
+  "packages": {
+    "iron-router": {},
+    "bootstrap-3": {},
+    "font-awesome": {},
+    "moment": {},
+    "roles": {},
+    "handlebar-helpers": {},
+    "iron-router-progress": {},
+    "Mesosphere": {},
+    "publish-with-relations": {},
+    "collection-helpers": {},
+    "collection-hooks": {},
+    "lodash": {},
+    "bootboxjs": {}
+  }
+}

@@ -1,0 +1,185 @@
+<template name="manager-users">
+    <div class="row">
+        <div class="col-lg-12">
+            <h3 class="page-header">Quản lý người dùng</h3>
+            <ul class="nav nav-tabs" id="manager-users-tabs">
+                <li class="active">
+                    <a href="#tab-branches" data-toggle="tab">Danh sách chi nhánh</a>
+                </li>
+                <li>
+                    <a href="#tab-users" data-toggle="tab">Danh sách người dùng</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                {{> tab_branches}}
+                {{> tab_users}}
+            </div>
+        </div>
+    </div>
+</template>
+<template name="tab_branches">
+    <div id="tab-branches" class="tab-pane active">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading"></div>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width:5%">#</th>
+                                <th style="width:60%">Tên chi nhánh</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{#each branches}}
+                            <tr>
+                                <td>{{orderNo}}</td>
+                                <td>{{name}}</td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<template name="tab_users">
+    <div id="tab-users" class="tab-pane">
+        <div class="row">
+            <div class="col-md-12">
+                <p><a class="btn btn-primary" id="modal-manager-users_addNewUser" data-modal="addNewUser">Thêm mới</a></p>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Tên</th>
+                            <th>Email</th>
+                            <th>Chi nhánh</th>
+                            <th>Vai trò</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {{#each users}}
+                                <tr>
+                                    <td>{{profile.[0].name}}</td>
+                                    <td>{{emails.[0].address}}</td>
+                                    <td>{{profile.[0].branchName}}</td>
+                                    <td>{{roles}}</td>
+                                    <td style="vertical-align: middle;text-align: center">
+                                        <a href="#" id="modal-manager-users_changePwd_{{_id}}" data-modal="changePassword"><i class="fa fa-exchange fa-fw"></i></a> |
+                                        <a href="#" id="modal-manager-users_editUser_{{_id}}" data-modal="editUser"><i class="fa fa-edit fa-fw"></i></a> |
+                                        <a href="#" id="modal-manager-users_lockUser_{{_id}}" data-modal="lockUser"><i class="fa fa-lock fa-fw"></i></a>
+                                    </td>
+                                </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="modal_manager_users" class="modal fade"></div>
+</template>
+<template name="modal_manager_users">
+    <div class="modal-dialog" style="{{style}}">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">{{title}}</h4>
+            </div>
+            <div class="modal-body">
+                {{#if $.Session.equals 'modalType' 'addNewUser'}}
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label for="txtFullName" class="col-sm-3 control-label">Họ và tên</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="txtFullName" class="form-control" placeholder="Nguyễn Xuân Công"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtEmail" class="col-sm-3 control-label">Địa chỉ Email</label>
+                            <div class="col-sm-9">
+                                <input type="text" id="txtEmail" class="form-control" placeholder="cong.nx@sunrisevietnam.com"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtPassword" class="col-sm-3 control-label">Mật khẩu</label>
+                            <div class="col-sm-9">
+                                <input type="password" id="txtPassword" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="txtConfirmPassword" class="col-sm-3 control-label">Xác nhận MK</label>
+                            <div class="col-sm-9">
+                                <input type="password" id="txtConfirmPassword" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Làm việc tại</label>
+                            <div class="col-sm-9">
+                                <select id="txtBranch" class="form-control">
+                                    {{#each $.Session.get 'subBranches'}}
+                                        <option value="{{_id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Vai trò</label>
+                            <div class="col-sm-9">
+                                <select multiple id="txtRoles" class="form-control">
+                                    {{#each $.Session.get 'userRoles'}}
+                                        <option value="{{_id}}">{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                {{/if}}
+                {{#with user}}
+                    {{#if $.Session.equals 'modalType' 'changePassword'}}
+                        <p>Tên người dùng : <strong>{{profile.[0].name}}</strong></p>
+                        <p>Địa chỉ Email : {{emails.[0].address}}</p>
+                        <fieldset>
+                            <div class="form-group">
+                                <input type="password" id="newPassword" placeholder="Mật khẩu mới..." class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" id="confirmNewPassword" placeholder="Xác nhận mật khẩu mới..." class="form-control" data-id="{{_id}}"/>
+                            </div>
+                        </fieldset>
+                    {{else}}
+                        <fieldset>
+                            <div class="form-group">
+                                <input type="text" id="fullName" data-id="{{_id}}" class="form-control" placeholder="Họ và tên" value="{{profile.[0].name}}">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="email" class="form-control" placeholder="Email" value="{{emails.[0].address}}">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="branch">
+                                    {{#each $.Session.get 'subBranches'}}
+                                        <option value="{{_id}}" {{selected _id}}>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control" id="roles" multiple="multiple">
+                                    {{#each $.Session.get 'userRoles'}}
+                                    <option value="{{_id}}" {{manager_users_roles_selected name}}>{{name}}</option>
+                                    {{/each}}
+                                </select>
+                            </div>
+                        </fieldset>
+                    {{/if}}
+                {{/with}}
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary saveUser">Lưu lại</button> &nbsp; <button type="button" class="cancelUser btn btn-danger">Hủy</button>
+            </div>
+        </div>
+    </div>
+</template>

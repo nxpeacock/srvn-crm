@@ -1,0 +1,28 @@
+Template['welcome'].rendered = function(){
+
+}
+
+Template['welcome'].events({
+    'click .btn.btn-primary' : function(e){
+        var student = {};
+        var majors_level1 = Majors.find().fetch();
+        var dlg_addNewUser = UI.renderWithData(Template.dlg_addNewStudent,{majors : majors_level1});
+        BootstrapDialog.show({
+            title : 'Thêm học sinh',
+            message : dlg_addNewUser.render().toHTML(),
+            buttons : [{
+                label : 'Lưu lại',
+                action : function(dialogRef){
+                    dialogRef.close();
+                }
+            },{
+                label : 'Hủy',
+                action : function(dialogRef){
+                    dialogRef.close();
+                }
+            }],
+            nl2br: false,
+            cssClass : 'addNewStudent'
+        })
+    }
+})
