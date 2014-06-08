@@ -1,3 +1,40 @@
 <template name="manager-events">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <h3 class="page-header">Quản lý sự kiện</h3>
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <p>
+                        <button class="btn btn-primary" id="btnAddNewEvent">
+                            <span class="glyphicon glyphicon-plus-sign"></span>
+                            Thêm sự kiện
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
+<template name="modal_add_new_event">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="txtEventName">Tên sự kiện</label>
+                <input type="text" id="txtEventName" class="form-control"/>
+            </div>
+            <div class="form-group">
+                <label for="txtDescription">Chú thích</label>
+                <textarea name="txtDescription" id="txtDescription" cols="30" rows="6" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="txtLocations">Tại văn phòng</label><br/>
+                <select name="txtLocations" id="txtLocations" class="form-control multiselect" multiple="multiple">
+                    {{#each branches}}
+                    <option value="{{_id}}">{{name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+    </div>
 </template>

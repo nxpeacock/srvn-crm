@@ -63,6 +63,10 @@ Router.map(function(){
     ,
     this.route('manager-events',{
         path : '/quanlyhethong/sukien',
-        template : 'manager-events'
+        template : 'manager-events',
+        onBeforeAction:filters.authenticate,
+        waitOn : function(){
+            return [Meteor.subscribe('branches')]
+        }
     })
 })
