@@ -27,10 +27,17 @@
                                 </a>
                             </li>
                             {{/if}}
-                            {{#if isInRole 'admin,mod'}}
+                            {{#if isInRole 'admin'}}
                             <li>
                                 <a href="{{pathFor 'manager-categories'}}">
-                                    <i class="fa fa-users fa-fw"></i> Quản lý danh mục
+                                    <i class="fa fa-database fa-fw"></i> Quản lý danh mục
+                                </a>
+                            </li>
+                            {{/if}}
+                            {{#if isInRole 'admin,mod'}}
+                            <li>
+                                <a href="{{pathFor 'manager-events'}}">
+                                    <i class="fa fa-clock-o fa-fw"></i> Quản lý sự kiện
                                 </a>
                             </li>
                             {{/if}}

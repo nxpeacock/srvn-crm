@@ -44,11 +44,13 @@ if (Meteor.isServer) {
 
         if (Categories.find().count() === 0) {
             var rootId = Categories.insert({
-                name: '------Tất cả------',
+                name: 'Chuyên ngành',
                 code :'majors',
                 level: 0,
                 lft: 1,
-                rgt: 22
+                rgt: 22,
+                maxLevel : 3,
+                isRoot : true
             });
 
             if (rootId) {

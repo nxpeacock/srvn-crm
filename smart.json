@@ -12,6 +12,9 @@
     "collection-helpers": {},
     "collection-hooks": {},
     "lodash": {},
-    "bootboxjs": {}
+    "bootboxjs": {},
+    "q": {},
+    "subs-manager": {},
+    "flash-messages": {}
   }
 }

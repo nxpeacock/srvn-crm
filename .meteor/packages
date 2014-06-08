@@ -20,3 +20,5 @@ collection-hooks
 lodash
 bootboxjs
 q
+subs-manager
+flash-messages

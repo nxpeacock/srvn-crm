@@ -13,6 +13,21 @@ var isAdmin = function () {
 }
 
 Meteor.methods({
+    insertRoot: function (data) {
+        if (data) {
+            var tmp = Categories.find({level:0, code: data.code});
+            if (!_.has(tmp,'_id')) {
+                try {
+                    var newRoot = {name : data.name,code : data.code,maxLevel : data.maxLevel,level: 0, lft: 1, rgt: 2, isRoot: true};
+                    var id = Categories.insert(newRoot);
+                    return id;
+                } catch (error) {
+                    throw new Meteor.Error(error);
+                }
+            }
+        }
+        return [];
+    },
     insertNode: function (data) {
         switch (data.position) {
             case 'left' :
@@ -32,7 +47,7 @@ Meteor.methods({
             if (nodeInfo) {
                 var parentInfo = Categories.findOne({_id: nodeInfo.parent});
                 if (parentInfo) {
-                    var nodeBrother = Categories.find({lft: {$lt: nodeInfo.left}, parent: {$eq: nodeInfo.parent}}).sort({lft: -1}).limit(1);
+                    var nodeBrother = Categories.find({lft: {$lt: nodeInfo.left}, parent: nodeInfo.parent}).sort({lft: -1}).limit(1);
                     if (nodeBrother) {
                         var data = {
                             id: nodeInfo._id,
@@ -49,20 +64,39 @@ Meteor.methods({
     removeNode: function (data) {
         if (data) {
             if (data.option === 'branch') return removeBranch(data);
-            if (data.option === 'leaf') return removeLeaf(data);
+            if (data.option === 'node') return removeOne(data);
         }
         return false;
     },
-    updateName : function(data){
-        if(data){
-            try{
-                Meteor.update({_id:data.id},{$set : {name : data.name}});
+    updateName: function (data) {
+        if (data) {
+            try {
+                Meteor.update({_id: data.id}, {$set: {name: data.name}});
                 return true;
-            }catch(error){
+            } catch (error) {
                 throw new Meteor.Error(error);
             }
             return false;
         }
+    },
+    breadCrumbs : function(id){
+        var currentNode = Categories.findOne(id);
+        if(currentNode){
+            var results = Categories.find({
+                code : currentNode.code,
+                lft : {$lt:currentNode.lft},
+                rgt : {$gt:currentNode.lft}
+            }).fetch();
+            var str = '<ul class="breadcrumb">';
+                str += "<li><a href='/quanlyhethong/danhmuc'>Danh mục</a></li>";
+            _.each(results,function(rs){
+                str+='<li><a href="/quanlyhethong/danhmuc/'+rs._id+'">'+rs.name+'</a></li>';
+            });
+            str+='<li class="active">'+currentNode.name+'</li>';
+            str+='</ul>';
+            return str;
+        }
+        return [];
     }
 })
 
@@ -99,28 +133,47 @@ var removeBranch = function (data) {
     return false;
 }
 
-var removeLeaf = function (data) {
+var removeOne = function (data) {
+    if(data){
+        try{
+            var nodeInfo = Categories.findOne(data.id);
+            if(nodeInfo){
+                var results = Categories.find({parent : nodeInfo._id},{sort:{lft:1}}).fetch();
+                var childIds = _.pluck(results,'_id').reverse();
 
+            }
+        }catch(error){
+            throw new Meteor.Error(error);
+        }
+    }
+    return false;
 }
 
 var insertRight = function (data) {
     if (data) {
         try {
-            var parentInfo = Categories.findOne({_id: data.parentId});
-            var parentRight = parentInfo.rgt,
-                parentCode = parentInfo.code;
-            Categories.update({lft: {$gt: parentRight}}, {$inc: {lft: 2}}, {multi: true});
-            Categories.update({rgt: {$gte: parentRight}}, {$inc: {rgt: 2}}, { multi: true });
-            var category = {
-                name: data.name,
-                parent: parentInfo._id,
-                code: parentCode,
-                lft: parentRight,
-                rgt: parentRight + 1,
-                level: parentInfo.level + 1
-            };
-            var id = Categories.insert(category);
-            return id;
+            var ids = [];
+            if(data.names){
+                _.each(data.names,function(name){
+                    var parentInfo = Categories.findOne({_id: data.parentId});
+                    var parentRight = parentInfo.rgt,
+                        parentCode = parentInfo.code;
+                    Categories.update({code : parentCode,lft: {$gt: parentRight}}, {$inc: {lft: 2}}, {multi: true});
+                    Categories.update({code : parentCode,rgt: {$gte: parentRight}}, {$inc: {rgt: 2}}, { multi: true });
+                    var category = {
+                        name: name,
+                        parent: parentInfo._id,
+                        code: parentCode,
+                        lft: parentRight,
+                        rgt: parentRight + 1,
+                        level: parentInfo.level + 1
+                    };
+                    var id = Categories.insert(category);
+                    ids.push(id);
+                })
+            }
+
+            return ids;
         } catch (error) {
             throw new Meteor.Error(error);
         }
@@ -134,8 +187,8 @@ var insertLeft = function (data) {
             var parentInfo = Categories.findOne({_id: data.parentId});
             if (parentInfo) {
                 var parentLeft = parentInfo.lft;
-                Categories.update({lft: {$gt: parentLeft}}, {$inc: {lft: 2}}, {multi: true});
-                Categories.update({rgt: {$gt: (parentLeft + 1)}}, {$inc: {rgt: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,lft: {$gt: parentLeft}}, {$inc: {lft: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,rgt: {$gt: (parentLeft + 1)}}, {$inc: {rgt: 2}}, {multi: true});
                 var newCate = {
                     name: data.name,
                     code: parentInfo.code,
@@ -160,8 +213,8 @@ var insertAfter = function (data) {
             var parentInfo = Categories.findOne({_id: data.parentId}),
                 brotherInfo = Categories.findOne({_id: data.brotherId});
             if (parentInfo && brotherInfo) {
-                Categories.update({lft: {$gt: brotherInfo.rgt}}, {$inc: {lft: 2}}, {multi: true});
-                Categories.update({rgt: {$gt: brotherInfo.rgt}}, {$inc: {rgt: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,lft: {$gt: brotherInfo.rgt}}, {$inc: {lft: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,rgt: {$gt: brotherInfo.rgt}}, {$inc: {rgt: 2}}, {multi: true});
                 var newCate = {
                     name: data.name,
                     code: parentInfo.code,
@@ -186,8 +239,8 @@ var insertBefore = function (data) {
             var parentInfo = Categories.findOne({_id: data.parentId}),
                 brotherInfo = Categories.findOne({_id: data.brotherId});
             if (parentInfo && brotherInfo) {
-                Categories.update({lft: {$gte: brotherInfo.lft}}, {$inc: {lft: 2}}, {multi: true});
-                Categories.update({rgt: {$gte: (brotherInfo.lft + 1)}}, {$inc: {rgt: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,lft: {$gte: brotherInfo.lft}}, {$inc: {lft: 2}}, {multi: true});
+                Categories.update({code : parentInfo.code,rgt: {$gte: (brotherInfo.lft + 1)}}, {$inc: {rgt: 2}}, {multi: true});
 
                 var newCate = {
                     name: data.name,

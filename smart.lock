@@ -14,7 +14,10 @@
       "collection-helpers": {},
       "collection-hooks": {},
       "lodash": {},
-      "bootboxjs": {}
+      "bootboxjs": {},
+      "q": {},
+      "subs-manager": {},
+      "flash-messages": {}
     },
     "packages": {
       "iron-router": {
@@ -81,6 +84,21 @@
         "git": "https://github.com/TimHeckel/meteor-bootboxjs.git",
         "tag": "v4.2.0",
         "commit": "2b7d18ad028d9e7b37238ecf2a8a7970735cebd1"
+      },
+      "q": {
+        "git": "https://github.com/frozeman/q-meteor.git",
+        "tag": "v0.9.7",
+        "commit": "e5c10f087b76fda32ae6be4d8950ab2633c520a3"
+      },
+      "subs-manager": {
+        "git": "https://github.com/meteorhacks/subs-manager.git",
+        "tag": "v1.0.0",
+        "commit": "e01b87ac004ef114f882a73549ba38f64709649e"
+      },
+      "flash-messages": {
+        "git": "https://github.com/camilosw/flash-messages.git",
+        "tag": "v0.2.4",
+        "commit": "8e7d09e7b7bd61ab10aaad01371dcecef2e9f797"
       },
       "blaze-layout": {
         "git": "https://github.com/EventedMind/blaze-layout.git",

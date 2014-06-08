@@ -1,3 +1,14 @@
 .tab_study_modal_add_l2 .modal-dialog{
     width : 400px !important;
 }
+
+.addRootCategory .modal-dialog{
+    width : 400px !important;
+}
+
+.AddNewCateChild .modal-dialog{
+    width : 300px;
+}
+table caption{
+    color : blue;
+}

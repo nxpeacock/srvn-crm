@@ -11,5 +11,22 @@ if(Meteor.isClient){
             })
         })
     });
-
+    getDialogButton_save_close = function(){
+        return [
+            {
+                id : 'btnDlg_Save',
+                label : 'Lưu lại',
+                icon : 'glyphicon glyphicon-save',
+                cssClass : 'btn btn-primary'
+            },
+            {
+                label : 'Đóng',
+                icon : 'glyphicon glyphicon-off',
+                cssClass : 'btn btn-danger',
+                action : function(dlg){
+                    dlg.close();
+                }
+            }
+        ]
+    }
 }

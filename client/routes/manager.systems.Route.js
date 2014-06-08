@@ -28,7 +28,41 @@ Router.map(function(){
         template : 'manager-categories',
         onBeforeAction:filters.authenticate,
         waitOn : function(){
-            return [Meteor.subscribe('majors')]
+            return [Meteor.subscribe('categories')]
         }
+    }),
+    this.route('manager-categories-detail',{
+        path : '/quanlyhethong/danhmuc/:_id',
+        template : 'manager-categories-detail',
+        onBeforeAction:filters.authenticate,
+        waitOn : function(){
+            //return [Meteor.subscribe('categories_detail',this.params._id),Meteor.subscribe('categories_breadCrumbs',this.params._id)];
+            return Meteor.subscribe('categories_by_code',this.params._id);
+        },
+        data : function(){
+            try{
+                var parent = Categories.findOne(this.params._id);
+                console.log('paramId:'+this.params._id +':'+ parent.name);
+                if(parent){
+                    var childLevel = parent.level +1;
+                    var children = Categories.find({lft:{$gt:parent.lft},rgt:{$lt:parent.rgt},level:childLevel});
+                    var breadCrumbs = getCategoriesBreadCrumbs(parent._id);
+                    return {
+                        caption : parent.name,
+                        parentId : parent._id,
+                        childCategories : children,
+                        breadCrumbs : breadCrumbs
+                    }
+                }
+            }catch(error){
+                console.log(error);
+            }
+            return [];
+        }
+    })
+    ,
+    this.route('manager-events',{
+        path : '/quanlyhethong/sukien',
+        template : 'manager-events'
     })
 })

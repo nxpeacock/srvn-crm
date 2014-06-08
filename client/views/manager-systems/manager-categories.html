@@ -2,61 +2,46 @@
     <div class="row">
         <div class="col-lg-12">
             <h3 class="page-header">Quản lý danh mục</h3>
-            <ul class="nav nav-tabs" id="manager-categories-tabs">
-                <li class="active"><a href="#tab-study" data-toggle="tab">Ngành nghề</a></li>
-                <li><a href="#tab-global" data-toggle="tab">Địa phương</a></li>
-            </ul>
-            <div class="tab-content">
-                {{> tab_study}}
-                {{> tab_global}}
-            </div>
-        </div>
-    </div>
-</template>
-
-<template name="tab_study">
-    <div id="tab-study" class="tab-pane active">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="page-header"></h4>
-                <div class="row">
-                    <div class="col-md-4">
-                        {{#with majors_level1}}
-                            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <th>STT</th>
-                                        <th>Chuyên ngành</th>
-                                        <th></th>
-                                        <th></th>
-                                    </thead>
-                                    <tbody>
-                                        {{#each majors}}
-                                            <tr>
-                                                <td>{{orderNo}}</td>
-                                                <td>{{name}}</td>
-                                                <td style="text-align: center;vertical-align: middle">
-                                                    <button id="majors_l1_btn_Edit_{{id}}" data-modal="l1-edit" class="btn btn-warning btn-xs">
-                                                        <span class="glyphicon glyphicon-edit"></span>
-                                                    </button>
-                                                    <button id="majors_l1_btn_Delete_{{id}}" data-modal="l1-remove" class="btn btn-danger btn-xs">
-                                                        <span class="glyphicon glyphicon-remove"></span>
-                                                    </button>
-                                                </td>
-                                                <td>
-                                                    <button id="majors_l1_btn_AddChild_{{id}}" data-modal="add-l2" class="btn btn-default btn-xs">
-                                                        <span class="glyphicon glyphicon-plus-sign"></span>
-                                                    </button>
-                                                    <button id="majors_l1_btn_ListChild_{{id}}" data-modal="list-l2"  class="btn btn-primary btn-xs">
-                                                        <span class="glyphicon glyphicon-list-alt"></span>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        {{/each}}
-                                    </tbody>
-                                </table>
-                            </div>
-                        {{/with}}
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <div class="table-responsive" id="dataGrid">
+                        <table class="table">
+                            <caption><h3>Danh mục gốc</h3></caption>
+                            <thead>
+                            <th>Tên danh mục</th>
+                            <th>Mã</th>
+                            <th>Số cấp</th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td colspan="4" style="text-align: right">
+                                    <button class="btn btn-primary" id="btnAddRoot">Thêm gốc</button>
+                                </td>
+                            </tr>
+                            {{#each rootCategories}}
+                            <tr>
+                                <td>{{name}}</td>
+                                <td>{{code}}</td>
+                                <td>{{maxLevel}}</td>
+                                <td>
+                                    <button id="root_l0_btn_Edit_{{_id}}" data-modal="l0-edit" class="btn btn-warning btn-xs">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </button>
+                                    <button id="root_l0_btn_Delete_{{_id}}" data-modal="l0-remove" class="btn btn-danger btn-xs">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                    <button id="root_l0_btn_AddChild_{{_id}}" data-modal="add-l1" class="btn btn-default btn-xs">
+                                        <span class="glyphicon glyphicon-plus-sign"></span>
+                                    </button>
+                                    <a href="{{pathFor 'manager-categories-detail'}}" class="btn btn-primary btn-xs">
+                                        <span class="glyphicon glyphicon-list-alt"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -64,26 +49,75 @@
     </div>
 </template>
 
-<template name="tab_global">
-    <div id="tab-global" class="tab-pane">
-        <div class="row">
-            <div class="col-md-12">
-                <h4 class="page-header">dia phuong</h4>
+<template name="manager-categories-detail">
+    <div class="row">
+        <div class="col-md-12 col-lg-12">
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    {{{breadCrumbs}}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 col-lg-12">
+                    <p>
+                        <button class="btn btn-primary" id="btnAddNewChild" data-parent="{{parentId}}">
+                            <span class="glyphicon glyphicon-indent-left"></span>
+                            Thêm danh mục
+                        </button>
+                    </p>
+                    <table class="table table-bordered">
+                        <thead>
+                        <th style="width: 70%">Tên danh mục</th>
+                        <th style="width: 30%"></th>
+                        </thead>
+                        <tbody>
+                        {{#each childCategories}}
+                        <tr>
+                            <td>{{name}}</td>
+                            <td>
+                                <a href="{{pathFor 'manager-categories-detail'}}" class="btn btn-primary btn-xs">
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </template>
+<template name="addRootCategory">
+    <div class="row">
+        <div class="col-sm-12">
+            <form>
+                <div class="form-group">
+                    <label for="txtRootName">Tên danh mục</label>
+                    <input type="text" class="form-control" id="txtRootName" placeholder="Tên danh mục"/>
+                </div>
+                <div class="form-group">
+                    <label for="txtRootCode">Mã danh mục</label>
+                    <input type="text" class="form-control" id="txtRootCode" placeholder="Mã danh mục"/>
+                </div>
+                <div class="form-group">
+                    <label for="txtRootMaxLevel">Số cấp tối đa</label>
+                    <input type="text" class="form-control" id="txtRootMaxLevel" value="1"/>
+                </div>
+            </form>
+        </div>
+    </div>
+</template>
 
-<template name="tab_study_modal_add_l2">
+<template name="modal_AddNewCateChild">
     <div class="row">
         <p>
             <b>Thuộc chuyên ngành</b> : {{parentName}}
         </p>
-
         <form role="form">
             <div class="form-group">
                 <label for="txtCategoriesName">Danh mục con :</label>
-                <textarea name="" id="txtCategoriesName" cols="30" rows="10"></textarea>
+                <textarea name="" id="txtCategoriesName" cols="30" rows="10" class="form-control"></textarea>
             </div>
         </form>
     </div>
