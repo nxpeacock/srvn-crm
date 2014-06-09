@@ -8,9 +8,9 @@ Categories.allow({
     update: isAdmin
 })
 
-var isAdmin = function () {
+/*var isAdmin = function () {
     return (Roles.userIsInRole(this.userId, ['admin']));
-}
+}*/
 
 Meteor.methods({
     insertRoot: function (data) {
