@@ -52,6 +52,11 @@ Meteor.publish('rootCategories', function () {
     return RootCategories();
 });
 
+Meteor.publish('events',function(){
+    var events = Events.find();
+    return events;
+})
+
 Meteor.publish('majorsCategories', function () {
     return MajorsCategories();
 })

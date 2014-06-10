@@ -66,7 +66,39 @@ Router.map(function(){
         template : 'manager-events',
         onBeforeAction:filters.authenticate,
         waitOn : function(){
-            return [Meteor.subscribe('branches')]
+            return [Meteor.subscribe('branches'),Meteor.subscribe('events')]
+        },
+        data : function(){
+            try{
+                var rs = Events.find({},{sort : {createdDate:-1}}).fetch();
+                var branches = Branches.find().fetch();
+                var events = [];
+                _.each(rs,function(r){
+                    var time = moment(r.startDate).format('DD/MM/YYYY') + ' - ' + moment(r.endDate).format('DD/MM/YYYY');
+                    if(moment(r.startDate).isSame(r.endDate)){
+                        time = moment(r.endDate).format('DD/MM/YYYY');
+                    }
+                    var locations = [];
+                    _.each(r.locations,function(l){
+                        var i = _.where(branches,{'code' : l});
+                        locations.push(i[0].name);
+                    });
+                    //console.log(locations);
+                    events.push({
+                        _id : r._id,
+                        name : r.name,
+                        description : r.description,
+                        time : time,
+                        locations : locations
+                    })
+                })
+                return {
+                    Events : events
+                }
+            }catch(error){
+                console.log(error)
+            }
+            return [];
         }
     })
 })

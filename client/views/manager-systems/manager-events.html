@@ -11,6 +11,33 @@
                             Thêm sự kiện
                         </button>
                     </p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <th>Tên sự kiện</th>
+                                <th>Thời gian</th>
+                                <th>Địa điểm</th>
+                                <th></th>
+                            </thead>
+                            <tbody>
+                                {{#each Events}}
+                                    <tr>
+                                        <td data-toggle="tooltip" data-container="body" data-placement="bottom" title="{{description}}">{{name}}</td>
+                                        <td>{{time}}</td>
+                                        <td>{{locations}}</td>
+                                        <td>
+                                            <button class="btn btn-warning btn-xs" id="btnEditEvent_{{_id}}">
+                                                <span class="glyphicon glyphicon-edit"></span>
+                                            </button>
+                                            <button class="btn btn-danger btn-xs" id="btnDelEvent_{{_id}}">
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -51,7 +78,7 @@
                 <select name="txtLocations" id="txtLocations" class="form-control multiselect" multiple="multiple">
                     <option value="multiselect-all">Chọn tất cả</option>
                     {{#each branches}}
-                    <option value="{{_id}}">{{name}}</option>
+                    <option value="{{code}}">{{name}}</option>
                     {{/each}}
                 </select>
             </div>

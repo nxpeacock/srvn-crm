@@ -14,5 +14,13 @@ Meteor.methods({
             throw new Meteor.Error(error);
         }
         return [];
+    },
+    'updateEvent' : function(id,data){
+        try{
+            return Events.update({_id : id},data);
+        }catch(error){
+            throw new Event.Error(error)
+        }
+        return []
     }
 })
