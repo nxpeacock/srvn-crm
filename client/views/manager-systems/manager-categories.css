@@ -9,6 +9,12 @@
 .AddNewCateChild .modal-dialog{
     width : 300px;
 }
+
+.confirmDlg .modal-dialog{
+    min-width : 400px;
+    width : 500px;
+    overflow:hidden;
+}
 table caption{
     color : blue;
 }

@@ -89,15 +89,40 @@ Template['manager-categories-detail'].events({
                     parentId : parent._id,
                     names : arrInput
                 }
+                dlg.close();
                 Meteor.call('insertNode',data,function(err,id){
                     if(err)
                         console.log(err)
                     if(id)
                         console.log(id);
-                    dlg.close();
                 })
             })
             dlg.open();
+        }
+    },
+    'click button[id^="btnRemoveCategories_"]' : function(e){
+        e.preventDefault();
+        var removeCate = Categories.findOne(this._id);
+        if(removeCate){
+            var msg = _.template('Bạn chắc chắn muốn xóa danh mục : <b><%= name %></b> ?')
+            var dlg = new BootstrapDialog({
+                type : BootstrapDialog.TYPE_DANGER,
+                title : 'Xóa danh mục',
+                message: msg({name : removeCate.name}),
+                closeable : false,
+                cssClass : 'confirmDlg',
+                buttons : getConfirmButtons()
+            });
+            dlg.realize();
+            dlg.open();
+            var btnOk = dlg.getButton('btnConfirm_Yes');
+            btnOk.click(function(e){
+                dlg.close();
+                Meteor.call('removeNode',removeCate._id,function(err,success){
+                    if(err) console.log(err);
+                    if(success) FlashMessages.sendSuccess(success);
+                })
+            })
         }
     }
 })

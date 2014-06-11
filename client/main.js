@@ -29,4 +29,24 @@ if(Meteor.isClient){
             }
         ]
     }
+    getConfirmButtons = function(Yes,No){
+        if(Yes === undefined) Yes = 'Có';
+        if(No === undefined) No = 'Không';
+        return [
+            {
+                id : 'btnConfirm_Yes',
+                label : Yes,
+                icon : 'glyphicon glyphicon-',
+                cssClass : 'btn btn-primary'
+            },
+            {
+                label : No,
+                icon : 'glyphicon glyphicon glyphicon-remove',
+                cssClass : 'btn btn-danger',
+                action : function(dlg){
+                    dlg.close();
+                }
+            }
+        ]
+    }
 }

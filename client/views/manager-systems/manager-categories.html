@@ -78,6 +78,9 @@
                                 <a href="{{pathFor 'manager-categories-detail'}}" class="btn btn-primary btn-xs">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                 </a>
+                                <button class="btn btn-danger btn-xs" id="btnRemoveCategories_{{_id}}">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
                             </td>
                         </tr>
                         {{/each}}
@@ -112,7 +115,7 @@
 <template name="modal_AddNewCateChild">
     <div class="row">
         <p>
-            <b>Thuộc chuyên ngành</b> : {{parentName}}
+            <b>Thuộc danh mục</b> : {{parentName}}
         </p>
         <form role="form">
             <div class="form-group">
