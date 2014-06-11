@@ -18,7 +18,7 @@ Router.map(function(){
                     })
                     return allUsers;
                 },
-                branches : Branches.find().fetch()
+                branches : Branches.find({},{sort:{orderNo:1}}).fetch()
             }
         },
         onBeforeAction : [filters.authenticate]
@@ -45,7 +45,7 @@ Router.map(function(){
                 console.log('paramId:'+this.params._id +':'+ parent.name);
                 if(parent){
                     var childLevel = parent.level +1;
-                    var children = Categories.find({lft:{$gt:parent.lft},rgt:{$lt:parent.rgt},level:childLevel});
+                    var children = Categories.find({lft:{$gt:parent.lft},rgt:{$lt:parent.rgt},level:childLevel},{sort:{lft:1}});
                     var breadCrumbs = getCategoriesBreadCrumbs(parent._id);
                     return {
                         caption : parent.name,
