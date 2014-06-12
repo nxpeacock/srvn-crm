@@ -44,7 +44,6 @@ InitDefaultDatabase = function () {
             });
             console.log('Categories : ' + o + ' rows...')
         }
-        console.log('Database inited.....')
     } catch (error) {
         console.log(error);
     }
