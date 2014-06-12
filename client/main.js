@@ -8,7 +8,7 @@ if(Meteor.isClient){
                 } else {
                     $('div.sidebar-collapse').removeClass('collapse')
                 }
-            })
+            });
         })
     });
     getDialogButton_save_close = function(){

@@ -75,10 +75,13 @@
                         <tr>
                             <td>{{name}}</td>
                             <td>
-                                <a href="{{pathFor 'manager-categories-detail'}}" class="btn btn-primary btn-xs">
+                                <button id="btnRenameCate_{{_id}}" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Đổi tên danh mục">
+                                    <span class="glyphicon glyphicon-font"></span>
+                                </button>
+                                <a href="{{pathFor 'manager-categories-detail'}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Danh mục con">
                                     <span class="glyphicon glyphicon-list-alt"></span>
                                 </a>
-                                <button class="btn btn-danger btn-xs" id="btnRemoveCategories_{{_id}}">
+                                <button class="btn btn-danger btn-xs" id="btnRemoveCategories_{{_id}}" data-toggle="tooltip" data-placement="top" title="Xóa danh mục">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </button>
                             </td>
@@ -123,5 +126,18 @@
                 <textarea name="" id="txtCategoriesName" cols="30" rows="10" class="form-control"></textarea>
             </div>
         </form>
+    </div>
+</template>
+
+<template name="modal_changeName">
+    <div class="row">
+        <div class="col-sm-12">
+            <form role="form">
+                <div class="form-group">
+                    <label for="txtCategoryName">Tên danh mục</label>
+                    <input type="text" id="txtCategoryName" class="form-control" value="{{name}}"/>
+                </div>
+            </form>
+        </div>
     </div>
 </template>

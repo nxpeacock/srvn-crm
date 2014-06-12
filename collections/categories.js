@@ -76,7 +76,7 @@ Meteor.methods({
     updateName: function (data) {
         if (data) {
             try {
-                Meteor.update({_id: data.id}, {$set: {name: data.name}});
+                Categories.update({_id: data.id}, {$set: {name: data.name}});
                 return true;
             } catch (error) {
                 throw new Meteor.Error(error);

@@ -124,77 +124,37 @@ Template['manager-categories-detail'].events({
                 })
             })
         }
-    }
-})
-
-/*
-Template['tab_study'].helpers({
-    majors_level1: function () {
-        var majors = Categories.find({level: 1});
-        return {
-            majors: majors,
-            count: majors.count()
-        };
-    }
-})
-
-Template['tab_study'].events({
-    "click button[id^='majors_l1_btn_']": function (e) {
+    },
+    'click button[id^="btnRenameCate_"]' :function(e){
         e.preventDefault();
-        var id = this._id;
-        var modalType = e.currentTarget.attributes['data-modal'].value;
-        var data = {};
-        var dom, cssClass;
-        if (modalType) {
-            switch (modalType) {
-                case 'add-l2':
-                    _.assign(data, {
-                        parentId: id,
-                        parentName: this.name
+        var cate = Categories.findOne(this._id);
+        if(cate){
+            var dom = UI.renderWithData(Template.modal_changeName,{name : cate.name});
+            var dlg = new BootstrapDialog({
+                title : 'Sửa tên danh mục',
+                nl2br: false,
+                cssClass : 'modal_changeName',
+                closable : false,
+                message : dom.render().toHTML(),
+                buttons: getDialogButton_save_close()
+            });
+            dlg.realize();
+            dlg.open();
+            var btnSave = dlg.getButton('btnDlg_Save');
+            btnSave.click(function(e){
+                dlg.close();
+                var newName = normalizedString($('#txtCategoryName').val());
+                if (newName != cate.name){
+                    var data = {
+                        id : cate._id,
+                        name : newName
+                    }
+                    Meteor.call('updateName',data,function(err,success){
+                       if(err) console.log(err);
+                        if(success) FlashMessages.sendSuccess('Cập nhật thành công!');
                     });
-                    dom = UI.renderWithData(Template.tab_study_modal_add_l2, data);
-                    cssClass = 'tab_study_modal_add_l2';
-                    break;
-                default :
-                    break;
-            }
-            if (dom) {
-                BootstrapDialog.show({
-                    title: 'Thêm chuyên ngành',
-                    message: dom.render().toHTML(),
-                    nl2br: false,
-                    cssClass: cssClass,
-                    buttons: [
-                        {
-                            label: 'Lưu lại',
-                            action: function (dlgRef) {
-                                switch (modalType) {
-                                    case 'add-l2':
-                                        var names = _.uniq($('#txtCategoriesName').val().split('\n'));
-                                        _.assign(data, {position: 'right'});
-                                        _.each(names, function (a) {
-                                            _.assign(data,{name : a});
-                                            Meteor.call('insertNode',data,function(err,id){
-                                                if(err)
-                                                    console.log(err);
-                                                if(id)
-                                                    console.log(id);
-                                            })
-                                        })
-                                        break;
-                                }
-                                dlgRef.close();
-                            }
-                        },
-                        {
-                            label: 'Hủy',
-                            action: function (dlgRef) {
-                                dlgRef.close();
-                            }
-                        }
-                    ]
-                })
-            }
+                }
+            })
         }
     }
-})*/
+});

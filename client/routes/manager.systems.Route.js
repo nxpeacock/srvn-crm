@@ -42,7 +42,7 @@ Router.map(function(){
         data : function(){
             try{
                 var parent = Categories.findOne(this.params._id);
-                console.log('paramId:'+this.params._id +':'+ parent.name);
+                //console.log('paramId:'+this.params._id +':'+ parent.name);
                 if(parent){
                     var childLevel = parent.level +1;
                     var children = Categories.find({lft:{$gt:parent.lft},rgt:{$lt:parent.rgt},level:childLevel},{sort:{lft:1}});
