@@ -1,4 +1,24 @@
 if(Meteor.isClient){
+    $(document).on('ready',function(){
+        setTimeout(function(){
+            $('body').toggleClass('fixed-header fixed-navigation fixed-ribbon');
+            var ismobile = (/iphone|ipad|ipod|android|blackberry|mini|windows\sce|palm/i.test(navigator.userAgent.toLowerCase()));
+
+            if (!ismobile) {
+                // Desktop
+                $('body').addClass("desktop-detected");
+                $.device = "desktop";
+            } else {
+                // Mobile
+                $('body').addClass("mobile-detected");
+                $.device = "mobile";
+
+                // Removes the tap delay in idevices
+                // dependency: js/plugin/fastclick/fastclick.js
+                //FastClick.attach(document.body);
+            }
+        },1000)
+    })
     getDialogButton_save_close = function(){
         return [
             {

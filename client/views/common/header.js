@@ -6,8 +6,9 @@ Template['header'].events({
             Router.go('/dangnhap');
         })
     },
-    'click #hide-menu >:first-child > a' : function(e){
+    'click #hide-menu' : function(e){
         e.preventDefault();
+        console.log(e);
         $('body').toggleClass("hidden-menu");
     }
 });
