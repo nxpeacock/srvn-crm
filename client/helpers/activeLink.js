@@ -6,5 +6,5 @@ curPath=function(){var c=window.location.pathname;var b=c.slice(0,-1);var a=c.sl
 // Determine if current link should be active
 Handlebars.registerHelper('active', function(path) {
     console.log(path);
-    return curPath() == path ? 'cActive' : '';
+    return curPath() == path ? 'active' : '';
 });

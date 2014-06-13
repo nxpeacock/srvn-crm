@@ -1,6 +1,7 @@
 var welcomeController = RouteController.extend({
     template : 'welcome',
-    onBeforeAction : filters.authenticate
+    onBeforeAction : filters.authenticate,
+    onAfterAction : [filters.activeMenu,filters.printBreadCrumbs]
 });
 
 Router.map(function(){

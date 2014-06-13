@@ -128,9 +128,6 @@ Template['sidebar'].events({
         } else {
             shortcut_buttons_show();
         }
-
-
-
         // SHORTCUT ANIMATE HIDE
         function shortcut_buttons_hide() {
             $('#shortcut').animate({

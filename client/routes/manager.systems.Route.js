@@ -21,12 +21,14 @@ Router.map(function(){
                 branches : Branches.find({},{sort:{orderNo:1}}).fetch()
             }
         },
-        onBeforeAction : [filters.authenticate]
+        onBeforeAction : [filters.authenticate],
+        onAfterAction : [filters.activeMenu,filters.printBreadCrumbs]
     }),
     this.route('manager-categories',{
         path : '/quanlyhethong/danhmuc',
         template : 'manager-categories',
         onBeforeAction:filters.authenticate,
+        onAfterAction : [filters.activeMenu,filters.printBreadCrumbs],
         waitOn : function(){
             return [Meteor.subscribe('categories')]
         }
@@ -35,6 +37,7 @@ Router.map(function(){
         path : '/quanlyhethong/danhmuc/:_id',
         template : 'manager-categories-detail',
         onBeforeAction:filters.authenticate,
+        onAfterAction : [filters.activeMenu,filters.printBreadCrumbs],
         waitOn : function(){
             //return [Meteor.subscribe('categories_detail',this.params._id),Meteor.subscribe('categories_breadCrumbs',this.params._id)];
             return Meteor.subscribe('categories_by_code',this.params._id);
@@ -65,6 +68,7 @@ Router.map(function(){
         path : '/quanlyhethong/sukien',
         template : 'manager-events',
         onBeforeAction:filters.authenticate,
+        onAfterAction : [filters.activeMenu,filters.printBreadCrumbs],
         waitOn : function(){
             return [Meteor.subscribe('branches'),Meteor.subscribe('events')]
         },

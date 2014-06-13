@@ -3,7 +3,8 @@
  */
 var homeController  = RouteController.extend({
     template : 'dashboard',
-    onBeforeAction : filters.authenticate
+    onBeforeAction : filters.authenticate,
+    onAfterAction : [filters.activeMenu,filters.printBreadCrumbs]
 });
 
 Router.map(function(){

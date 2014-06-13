@@ -162,14 +162,15 @@
     <li class="">
         <a href="{{pathFor 'dashboard'}}" title="Bảng tin"><i class="fa fa-lg fa-fw fa-home"></i> <span class="menu-item-parent">Bảng tin</span></a>
     </li>
-
+    {{#if isInRole 'user,consult'}}
     <li>
-        <a href="ajax/inbox.html"><i class="fa fa-lg fa-fw fa-inbox"></i> <span class="menu-item-parent">Inbox</span><span class="badge pull-right inbox-badge">14</span></a>
+        <a href="{{pathFor 'welcome'}}"><i class="fa fa-rocket fa-fw fa-lg"></i> <span class="menu-item-parent">Tiếp đón</span></a>
     </li>
+    {{/if}}
     {{#if isInRole 'admin,mod'}}
     <li>
         <a href="#">
-            <i class="fa fa-lg fa-fw fa-bar-chart-o"></i>
+            <i class="fa fa-lg fa-fw fa-cubes"></i>
             <span class="menu-item-parent">Quản trị hệ thống</span>
         </a>
         <ul>
